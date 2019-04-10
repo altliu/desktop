@@ -13,6 +13,7 @@ import { IDiff, ImageDiffType } from '../../models/diff'
 import { Resizable } from '../resizable'
 import { Button } from '../lib/button'
 import { ButtonGroup } from '../lib/button-group'
+import { Octicon, OcticonSymbol } from '../octicons'
 
 export const StashDiffViewer: React.SFC<{
   stashEntry: IStashEntry
@@ -95,6 +96,9 @@ const Header: React.SFC<{
   repository: Repository
   dispatcher: Dispatcher
 }> = props => {
+  const onCloseButtonClick = () => {
+    props.dispatcher.hideStashEntry(props.repository)
+  }
   const onClearClick = () => {
     props.dispatcher.dropStash(props.repository, props.stashEntry)
   }
@@ -103,7 +107,13 @@ const Header: React.SFC<{
   }
   return (
     <div className="header">
-      <h3>Stashed changes</h3>
+      <div className="top">
+        <h3>Stashed changes</h3>
+        <a className="close" onClick={onCloseButtonClick}>
+          <Octicon symbol={OcticonSymbol.x} />
+        </a>
+      </div>
+
       <ButtonGroup>
         <Button onClick={onClearClick}>Clear</Button>
         <Button onClick={onSubmitClick} type="submit">
